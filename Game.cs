@@ -54,12 +54,16 @@ namespace Puzzle15_SAT1100
 
         private void SwitchTiles(Button tile)
         {
-            int oldLeft = tile.Left;
-            int oldTop = tile.Top;
-            tile.Left = button16.Left;
-            tile.Top = button16.Top;
-            button16.Left = oldLeft;
-            button16.Top = oldTop;
+            Point oldLocation = tile.Location;
+            tile.Location = button16.Location;
+            button16.Location = oldLocation;
+            
+            //int oldLeft = tile.Left;
+            //int oldTop = tile.Top;
+            //tile.Left = button16.Left;
+            //tile.Top = button16.Top;
+            //button16.Left = oldLeft;
+            //button16.Top = oldTop;
         }
 
         private void ShuffleTiles()
