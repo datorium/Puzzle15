@@ -12,8 +12,10 @@ namespace Puzzle15_SAT1100
 {
     public partial class Game : Form
     {
-        Random Rand = new Random();
         int moves = 0;
+        Random Rand = new Random();
+        Color tileBackColor;        
+        Point[] locations = new Point[15];
         public Game()
         {
             InitializeComponent();
@@ -30,10 +32,35 @@ namespace Puzzle15_SAT1100
             {
                 tileName = "button" + i.ToString();
                 tile = (Button)this.Controls[tileName];             
-                tile.Text = i.ToString();                
+                tile.Text = i.ToString();
+                locations[i - 1] = tile.Location;
             }
             button16.Text = "";
             UpdateMovesLabel();
+        }
+
+        private void CheckForWin()
+        {
+            bool win = true;
+            string tileName;
+            Button tile;
+
+            for (int i = 1; i <= 15; i++)
+            {
+                tileName = "button" + i.ToString();
+                tile = (Button)this.Controls[tileName];
+                win = win & (tile.Location == locations[i - 1]);
+            }
+
+            if (win)
+            {
+                GameWin();
+            }
+        }
+
+        private void GameWin()
+        {
+            MessageBox.Show("You won!");
         }
 
         private void UpdateMovesLabel()
@@ -95,6 +122,26 @@ namespace Puzzle15_SAT1100
             int b = yEmptyTile - yTile;
             double c = Math.Sqrt(Math.Pow(a,2) + Math.Pow(b,2));
             return c < 105;
+        }
+
+        private void TileMouseEnter(object sender, EventArgs e)
+        {            
+            Button tile = (Button)sender;
+            tileBackColor = tile.BackColor;
+            if (TileClose(tile))
+            {
+                tile.BackColor = Color.Green;
+            }
+            else
+            {
+                tile.BackColor = Color.Red;
+            }
+        }
+
+        private void TileMouseLeave(object sender, EventArgs e)
+        {
+            Button tile = (Button)sender;
+            tile.BackColor = tileBackColor;
         }
     }
 }
